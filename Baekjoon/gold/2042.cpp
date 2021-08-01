@@ -10,7 +10,7 @@ ll a, b, c;
 ll *tree;
 ll *nums;
 
-int init(int start, int end, ll node)
+ll init(int start, int end, ll node)
 {
     if (start == end)
     {
@@ -20,7 +20,7 @@ int init(int start, int end, ll node)
     return tree[node] = init(start, mid, node * 2) + init(mid + 1, end, node * 2 + 1);
 }
 
-int sum(int start, int end, ll node, int left, int right)
+ll sum(int start, int end, ll node, int left, int right)
 {
     if (start > right || end < left)
     {
@@ -31,7 +31,7 @@ int sum(int start, int end, ll node, int left, int right)
         return tree[node];
     }
     int mid = (start + end) / 2;
-    return tree[node] = sum(start, mid, node * 2, left, right) + sum(mid + 1, end, node * 2 + 1, left, right);
+    return sum(start, mid, node * 2, left, right) + sum(mid + 1, end, node * 2 + 1, left, right);
 }
 
 void update(int start, int end, ll node, ll index, ll diff)
@@ -52,6 +52,8 @@ void update(int start, int end, ll node, ll index, ll diff)
 
 int main(int argc, char **argv)
 {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
     ll size;
     cin >> N >> M >> K;
 

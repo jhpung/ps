@@ -6,7 +6,6 @@ using namespace std;
 int N, M, K;
 int a, b, c;
 int *min_tree;
-int *max_tree;
 int *nums;
 
 int init_min(int start, int end, int node)
@@ -21,34 +20,6 @@ int init_min(int start, int end, int node)
   }
   int mid = (start + end) / 2;
   return min_tree[node] = min(init_min(start, mid, node * 2), init_min(mid + 1, end, node * 2 + 1));
-}
-
-int init_max(int start, int end, int node)
-{
-  if (start == end)
-  {
-    return max_tree[node] = nums[start];
-  }
-  if ((start - end) == 1)
-  {
-    return max_tree[node] = max(nums[start], nums[end]);
-  }
-  int mid = (start + end) / 2;
-  return max_tree[node] = max(init_max(start, mid, node * 2), init_max(mid + 1, end, node * 2 + 1));
-}
-
-int find_max(int start, int end, int node, int left, int right)
-{
-  if (start > right || end < left)
-  {
-    return 0;
-  }
-  if (start >= left && end <= right)
-  {
-    return max_tree[node];
-  }
-  int mid = (start + end) / 2;
-  return max(find_max(start, mid, node * 2, left, right), find_max(mid + 1, end, node * 2 + 1, left, right));
 }
 
 int find_min(int start, int end, int node, int left, int right)
@@ -76,18 +47,15 @@ int main(int argc, char **argv)
   size = 1 << (int)(ceil(log2l(N) + 1));
   min_tree = (int *)malloc(sizeof(int) * size);
   memset(min_tree, 1000000000, sizeof(int) * size);
-  max_tree = (int *)malloc(sizeof(int) * size);
-  memset(max_tree, 0, sizeof(int) * size);
 
   for (int i = 0; i < N; i++)
   {
     cin >> nums[i];
   }
   init_min(0, N - 1, 1);
-  init_max(0, N - 1, 1);
   for (int i = 0; i < M; i++)
   {
     cin >> a >> b;
-    cout << find_min(0, N - 1, 1, a - 1, b - 1) << ' ' << find_max(0, N - 1, 1, a - 1, b - 1) << '\n';
+    cout << find_min(0, N - 1, 1, a - 1, b - 1) << '\n';
   }
 }
